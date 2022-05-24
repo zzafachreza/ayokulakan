@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "552452983262",
+    "project_id": "ayokulakan-zvl",
+    "storage_bucket": "ayokulakan-zvl.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552452983262:android:0edae988e0c8e8e47ab54f",
+        "android_client_info": {
+          "package_name": "com.ayokulakan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552452983262-rldipra97kgfn6os6enr6qhnnl7ntcaa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQjAqL8j_US3RmUkSXohEBAh90Tafa4EU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552452983262-rldipra97kgfn6os6enr6qhnnl7ntcaa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
