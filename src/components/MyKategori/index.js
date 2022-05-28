@@ -1,131 +1,112 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
-import {Icon} from 'react-native-elements';
-import {useNavigation} from '@react-navigation/native';
-import {colors} from '../../utils/colors';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { Icon } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
+import { colors } from '../../utils/colors';
+import { fonts, myDimensi, windowHeight, windowWidth } from '../../utils/fonts';
+import axios from 'axios';
+import { apiURLStorage } from '../../utils/localStorage';
 
-const IconCategory = ({img, title, onPress, iconname}) => {
+const IconPemayaran = ({ img, title, onPress }) => {
   return (
-    <View>
-      <TouchableOpacity
-        onPress={onPress}
+    <TouchableOpacity
+      onPress={onPress}
+      style={{
+        // flex: 1,
+        width: 80,
+        height: myDimensi / 0.35,
+        padding: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+
+      }}>
+      <View
         style={{
-          // flex: 1,
-          width: 90,
-          height: 90,
-
-          // backgroundColor: '#F8781D',
-          // backgroundColor: '#FFF',
-          backgroundColor: colors.primary,
-          borderRadius: 10,
-          padding: 5,
-          justifyContent: 'center',
-          alignItems: 'center',
-          // margin: 5,
-          // borderWidth: 1,
-          // borderColor: colors.secondary,
-
-          // elevation: 2,
+          flex: 2,
         }}>
-        <View
+        <Image
+          resizeMode="contain"
+          source={img}
+          style={{ width: myDimensi / 0.5, height: myDimensi / 0.7, aspectRatio: 1 }}
+        />
+      </View>
+      <View
+        style={{
+          flex: 1,
+        }}>
+        <Text
           style={{
-            flex: 2,
-            justifyContent: 'center',
+            fontFamily: fonts.secondary[400],
+            // color: '#F8781D',
+            color: colors.black,
+            fontSize: myDimensi / 3,
+            textAlign: 'center',
           }}>
-          <Icon type="ionicon" name={iconname} color={colors.white} size={40} />
-        </View>
-        <View
-          style={{
-            flex: 1,
-          }}>
-          <Text
-            style={{
-              fontFamily: 'Montserrat-SemiBold',
-              // color: '#F8781D',
-              color: colors.white,
-              fontSize: 12,
-              textAlign: 'center',
-            }}>
-            {title}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    </View>
+          {title}
+        </Text>
+      </View>
+    </TouchableOpacity >
   );
 };
 
 export default function MyKategori() {
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+
+    axios.get('https://ayokulakan.com/api/kategori/barang?limit=100').then(res => {
+      console.warn('kategori', res.data.data.data);
+      setData(res.data.data.data)
+    })
+
+  }, [])
+
   const navigation = useNavigation();
-
-  const dataKategori = [
-    {
-      value: 'Pesan',
-      icon: 'phone-portrait-outline',
-    },
-    {
-      value: 'Jemput',
-      icon: 'file-tray-full-outline',
-    },
-    {
-      value: 'Proses',
-      icon: 'layers-outline',
-    },
-    {
-      value: 'Antar',
-      icon: 'cube-outline',
-    },
-  ];
-
   return (
     <View
       style={{
         justifyContent: 'center',
         padding: 10,
-        backgroundColor: colors.primary,
 
-        // backgroundColor: '#FFF',
-        paddingBottom: 20,
       }}>
       <View
         style={{
           flexDirection: 'row',
-          // justifyContent: 'center',
           alignItems: 'center',
           paddingVertical: 5,
         }}>
-        <Icon type="ionicon" name="grid" color="#FFF" size={16} />
+        <Icon type="ionicon" name="grid-outline" color={colors.black} size={16} />
         <Text
           style={{
-            fontFamily: 'Montserrat-SemiBold',
-            color: '#FFF',
+            fontFamily: fonts.secondary[600],
+            color: colors.black,
             left: 10,
-            fontSize: 16,
+            fontSize: myDimensi / 2.5,
           }}>
-          KERJA KAMI
+          Kategori Produk
         </Text>
       </View>
-      <ScrollView>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View
           style={{
             flex: 1,
             flexDirection: 'row',
-            justifyContent: 'space-around',
             // backgroundColor: '#16A858',
           }}>
-          {dataKategori.map(item => {
+
+          {data.map(item => {
             return (
-              <IconCategory
-                title={item.value}
-                iconname={item.icon}
-                // onPress={() =>
-                //   navigation.navigate('Kategori', {
-                //     kategori: item.value,
-                //     menu: item.value,
-                //   })
-                // }
+              <IconPemayaran
+                title={item.name}
+                img={{
+                  uri: apiURLStorage + item.attachment[0].url
+                }}
+                onPress={() => navigation.navigate('Pulsa')}
               />
-            );
+            )
           })}
+
         </View>
       </ScrollView>
     </View>

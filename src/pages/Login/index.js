@@ -1,13 +1,33 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, ActivityIndicator } from 'react-native'
 import React, { userState, useEffect, useState } from 'react'
 import { fonts, myDimensi } from '../../utils/fonts'
 import { colors } from '../../utils/colors'
 import { Icon } from 'react-native-elements'
 import { MyButton, MyGap } from '../../components'
+import axios from 'axios'
+import { apiURL, storeData } from '../../utils/localStorage'
 
 export default function Login({ navigation }) {
 
+
+  const [loading, setLoading] = useState(false);
   const [buka, setBuka] = useState(true);
+
+  const [kirim, setKirim] = useState({
+    email: '',
+    password: '',
+  });
+
+  const __masuk_via_email = () => {
+    setLoading(true);
+    console.log(kirim);
+    axios.post(apiURL + 'api/auth/login', kirim).then(res => {
+      setLoading(false);
+      console.log(res.data.user);
+      storeData('user', res.data.user);
+      navigation.replace('MainApp');
+    })
+  }
 
   return (
 
@@ -67,7 +87,10 @@ export default function Login({ navigation }) {
               left: 2,
             }}>Email</Text>
           </View>
-          <TextInput keyboardType='email-address' style={{
+          <TextInput autoCapitalize='none' value={kirim.email} onChangeText={v => setKirim({
+            ...kirim,
+            email: v
+          })} keyboardType='email-address' style={{
             borderWidth: 1,
             borderColor: colors.border,
             borderRadius: 5,
@@ -96,7 +119,10 @@ export default function Login({ navigation }) {
           <View style={{
             position: "relative"
           }}>
-            <TextInput secureTextEntry={buka} style={{
+            <TextInput autoCapitalize='none' value={kirim.password} onChangeText={v => setKirim({
+              ...kirim,
+              password: v
+            })} secureTextEntry={buka} style={{
               borderWidth: 1,
               borderColor: colors.border,
               borderRadius: 5,
@@ -150,7 +176,8 @@ export default function Login({ navigation }) {
           </TouchableOpacity>
         </View>
         <MyGap jarak={10} />
-        <MyButton title="Login" warna={colors.primary} Icons="log-in-outline" />
+        {!loading && <MyButton onPress={__masuk_via_email} title="Login" warna={colors.primary} Icons="log-in-outline" />}
+        {loading && <ActivityIndicator color={colors.primary} size="large" />}
         <MyGap jarak={10} />
         <Text style={{
           fontFamily: fonts.secondary[400],

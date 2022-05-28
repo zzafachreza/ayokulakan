@@ -45,16 +45,19 @@ export default function Splash({ navigation }) {
       <View
         style={{
           flex: 1,
-          backgroundColor: colors.white,
+          backgroundColor: colors.primary,
           justifyContent: 'center',
         }}>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
 
-            // paddingBottom: windowHeight / 4,
-          }}>
+
+        <View style={{
+          backgroundColor: colors.white,
+          marginBottom: '-5%',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingBottom: 10,
+
+        }}>
           <Animated.Image
             source={require('../../assets/logo.png')}
             style={{
@@ -64,7 +67,39 @@ export default function Splash({ navigation }) {
               aspectRatio: scaleLogo,
             }}
           />
-          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+        <View
+          style={{
+            backgroundColor: colors.primary,
+            justifyContent: 'center',
+            alignItems: 'center',
+            // borderTopLeftRadius: 30,
+            // borderTopRightRadius: 30,
+            paddingTop: 20,
+
+            // paddingBottom: windowHeight / 4,
+          }}>
+
+
+          <Text style={{
+            fontFamily: fonts.secondary[600],
+            fontSize: windowWidth / 15,
+            textAlign: 'center',
+            color: colors.white,
+            maxWidth: '72%',
+            marginBottom: 20,
+          }}>Tebarkan Kesejahteraan Dan Kedamaian Bersama</Text>
+          <Animated.Image
+            source={require('../../assets/putih.png')}
+            style={{
+              // resizeMode: 'center',
+              height: 50,
+              width: windowWidth / 1.3,
+              marginBottom: 20,
+            }}
+          />
+
+          <ActivityIndicator size="large" color={colors.white} />
         </View>
 
       </View>
@@ -74,7 +109,7 @@ export default function Splash({ navigation }) {
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.secondary,
     flex: 1,
   },
   image: {

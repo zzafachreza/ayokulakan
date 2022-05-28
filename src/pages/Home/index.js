@@ -5,8 +5,9 @@ import { colors } from '../../utils/colors'
 import { Icon } from 'react-native-elements'
 import { fonts, myDimensi, windowWidth } from '../../utils/fonts'
 import axios from 'axios'
-import { apiURL, apiURLStorage, validToken } from '../../utils/localStorage'
+import { apiURL, apiURLStorage, getData, storeData, validToken } from '../../utils/localStorage'
 import MyTerbaik from '../../components/MyTerbaik'
+import MyKategori from '../../components/MyKategori'
 
 
 
@@ -15,8 +16,13 @@ import MyTerbaik from '../../components/MyTerbaik'
 export default function Home({ navigation }) {
 
   const [Kategori, setKategori] = useState([]);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
+
+    getData('user').then(res => {
+      setUser(res);
+    })
 
     axios.get(apiURL + 'api/kategori/barang').then(res => {
       console.log(res.data.data.data);
@@ -48,7 +54,7 @@ export default function Home({ navigation }) {
         }}>
 
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{
+        {!user && <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center'
@@ -59,7 +65,30 @@ export default function Home({ navigation }) {
             color: colors.white,
             fontSize: 12
           }}>Masuk</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
+
+        {user && <TouchableOpacity onPress={() => {
+          storeData('user', null);
+          navigation.replace('MainApp')
+        }} style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <Text style={{
+            fontFamily: fonts.secondary[600],
+            color: colors.white,
+            fontSize: 12,
+            right: 10,
+          }}>Selamat datang, {user.username}</Text>
+          <Text style={{
+            fontFamily: fonts.secondary[600],
+            color: colors.white,
+            fontSize: 12
+          }}>Keluar</Text>
+          <Icon type='ionicon' name='log-out-outline' color={colors.white} />
+
+        </TouchableOpacity>}
       </View>
 
 
@@ -69,34 +98,8 @@ export default function Home({ navigation }) {
       <ScrollView>
         <MyGap jarak={10} />
         <MyCarouser />
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          padding: 5,
-        }}>
-          {Kategori.map(item => {
 
-            return (
-              <TouchableOpacity style={styles.kategori}>
-                <Image source={{
-                  uri: apiURLStorage + item.attachment[0].url
-                }} style={{
-                  width: '70%',
-                  aspectRatio: 1,
-
-                }} />
-                <Text style={{
-                  marginTop: 5,
-                  fontFamily: fonts.secondary[400],
-                  fontSize: myDimensi / 3.4,
-
-                }}>{item.name}</Text>
-
-              </TouchableOpacity>
-            )
-
-          })}
-        </View>
+        <MyKategori />
 
         <MyPembayaranOnline />
 

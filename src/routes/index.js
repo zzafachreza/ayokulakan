@@ -12,7 +12,8 @@ import {
   Splash,
   Login,
   Register,
-  Home
+  Home,
+  Category
 } from '../pages';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
@@ -25,7 +26,7 @@ const MainApp = () => {
   return (
     <Tab.Navigator tabBar={props => <BottomNavigator {...props} />}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Kategori" component={Home} />
+      <Tab.Screen name="Kategori" component={Category} />
       <Tab.Screen name="CartBarang" component={Home} />
       <Tab.Screen name="CartSewa" component={Home} />
       <Tab.Screen name="Account" component={Home} />
@@ -78,6 +79,8 @@ export default function Router() {
           headerShown: false,
         }}
       />
+
+
 
 
 
