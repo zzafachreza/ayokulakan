@@ -13,7 +13,8 @@ import {
   Login,
   Register,
   Home,
-  Category
+  Category,
+  Product
 } from '../pages';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
@@ -62,6 +63,16 @@ export default function Router() {
           headerShown: false,
         }}
       />
+
+
+      <Stack.Screen
+        name="Product"
+        component={Product}
+        options={{
+          headerShown: false,
+        }}
+      />
+
 
       <Stack.Screen
         name="Login"

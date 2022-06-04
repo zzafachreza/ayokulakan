@@ -6,8 +6,14 @@ import { Icon } from 'react-native-elements'
 import { MyButton, MyGap } from '../../components'
 import axios from 'axios'
 import { apiURL, storeData } from '../../utils/localStorage'
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 export default function Login({ navigation }) {
+
+  GoogleSignin.configure({
+    webClientId:
+      '342848835492-2cg8hqg0vuvmjum51cnehdal2ofs6kij.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+  });
 
 
   const [loading, setLoading] = useState(false);
@@ -18,6 +24,25 @@ export default function Login({ navigation }) {
     password: '',
   });
 
+  const __masuk_via_google = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  }
+
   const __masuk_via_email = () => {
     setLoading(true);
     console.log(kirim);
@@ -26,6 +51,9 @@ export default function Login({ navigation }) {
       console.log(res.data.user);
       storeData('user', res.data.user);
       navigation.replace('MainApp');
+    }).catch(err => {
+      console.error(err);
+      setLoading(false);
     })
   }
 
@@ -214,7 +242,7 @@ export default function Login({ navigation }) {
               color: colors.black
             }}>Facebook</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{
+          <TouchableOpacity onPress={__masuk_via_google} style={{
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'center',

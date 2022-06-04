@@ -53,12 +53,8 @@ export default function MyTerbaik() {
   };
 
   const renderItem = ({ item }) => {
-    // let uri = '';
-    // if (item.attachments[0]) {
-    //   uri = apiURLStorage + item.attachment[0].url;
-    // } else {
+
     let uri = 'https://zavalabs.com/nogambar.jpg';
-    // }
 
     let nilaiProduct = 0;
 
@@ -80,9 +76,7 @@ export default function MyTerbaik() {
       <TouchableOpacity
         style={styles.card}
         onPress={() =>
-          navigation.navigate('Product', {
-            product: item,
-          })
+          navigation.navigate('Product', item)
         }
         activeOpacity={1.0}>
         <Image style={styles.image} source={{ uri: apiURLStorage + item.attachment[0].url }} />
