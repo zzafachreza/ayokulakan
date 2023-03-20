@@ -36,7 +36,7 @@ export default function Splash({ navigation }) {
   useEffect(() => {
 
     setTimeout(() => {
-      navigation.replace('MainApp');
+      navigation.replace('Home');
     }, 1500)
   }, []);
 
